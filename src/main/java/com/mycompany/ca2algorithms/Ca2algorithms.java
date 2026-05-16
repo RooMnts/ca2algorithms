@@ -10,5 +10,4 @@ package com.mycompany.ca2algorithms;
  */
 public class Ca2algorithms {
 
-    
 }
