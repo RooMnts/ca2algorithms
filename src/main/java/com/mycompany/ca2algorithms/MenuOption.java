@@ -10,4 +10,10 @@ package com.mycompany.ca2algorithms;
  */
 public class MenuOption {
     
+    SORT,
+    SEARCH,
+    ADD_RECORD,
+    CREATE_TREE,
+    EXIT
+    
 }
