@@ -8,7 +8,7 @@ package com.mycompany.ca2algorithms;
  *
  * @author RooMnts
  */
-public class MenuOption {
+public enum MenuOption {
     
     SORT,
     SEARCH,

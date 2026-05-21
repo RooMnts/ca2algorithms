@@ -5,6 +5,7 @@
 package com.mycompany.ca2algorithms;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,8 +17,8 @@ public class Sorting {
         if (list.size() <= 1) return;
 
         int mid = list.size() / 2;
-        List<String> left = list.subList(0, mid);
-        List<String> right = list.subList(mid, list.size());
+        List<String> left = new ArrayList<>(list.subList(0, mid));
+        List<String> right = new ArrayList<>(list.subList(mid, list.size()));
 
         mergeSort(left);
         mergeSort(right);

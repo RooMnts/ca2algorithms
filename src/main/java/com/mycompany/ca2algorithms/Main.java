@@ -4,6 +4,8 @@
  */
 package com.mycompany.ca2algorithms;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,32 +19,34 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-
-        // Dummy data manual (20 empleados)
-        List<Ca2algorithms> employees = new ArrayList<>();
-        employees.add(new Ca2algorithms("Kate Summer", "Senior", "IT Development"));
-        employees.add(new Ca2algorithms("Ken Winter", "Middle", "IT Development"));
-        employees.add(new Ca2algorithms("James Anderson", "Manager", "Sales"));
-        employees.add(new Ca2algorithms("Sarah Johnson", "Assistant Manager", "HR"));
-        employees.add(new Ca2algorithms("John Smith", "Senior Manager", "Finance"));
-        employees.add(new Ca2algorithms("Emily Brown", "Middle", "Marketing"));
-        employees.add(new Ca2algorithms("Michael Williams", "Intern", "IT Development"));
-        employees.add(new Ca2algorithms("Sophia Taylor", "Junior", "IT Development"));
-        employees.add(new Ca2algorithms("David Wilson", "Senior", "IT Development"));
-        employees.add(new Ca2algorithms("Olivia Martinez", "Contract", "Accounting"));
-        employees.add(new Ca2algorithms("Ethan Anderson", "Senior", "Finance"));
-        employees.add(new Ca2algorithms("Mia Clark", "Middle", "Operations"));
-        employees.add(new Ca2algorithms("John Anderson", "Manager", "Sales"));
-        employees.add(new Ca2algorithms("Sam Johnson", "Manager", "HR"));
-        employees.add(new Ca2algorithms("John Brown", "Manager", "Finance"));
-        employees.add(new Ca2algorithms("Emma Brown", "Junior", "Marketing"));
-        employees.add(new Ca2algorithms("Max Williams", "Intern", "Technical Support"));
-        employees.add(new Ca2algorithms("Sonya Taylor", "Junior", "Customer Service"));
-        employees.add(new Ca2algorithms("Denis Wilson", "Manager", "IT Development"));
-        employees.add(new Ca2algorithms("Olga Martinez", "Contract", "Accounting"));
-
+        
         List<String> names = new ArrayList<>();
-        for (Ca2algorithms e : employees) names.add(e.getName());
+    List<Ca2algorithms> employees = new ArrayList<>();
+
+    try (Scanner fileScanner = new Scanner(new File("src/main/resources/Applicants_Form.txt"))) {
+        while (fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine().trim();
+            if (!line.isEmpty()) {
+                names.add(line);
+            }
+        }
+        System.out.println("File read successfully!");
+    } catch (FileNotFoundException e) {
+        System.out.println("Applicants_Form.txt not found!");
+        return;
+    }
+    
+    List<String> validManagers = List.of("Senior Manager", "Assistant Manager", "Manager", "Intern", "Junior", "Contract");
+    List<String> validDepartments = List.of("IT Development", "HR", "Finance", "Marketing", "Accounting", "Operations", "Technical Support", "Customer Service", "Sales");
+
+    
+    for (String n : names) {
+    String randomManager = validManagers.get((int)(Math.random() * validManagers.size()));
+    String randomDepartment = validDepartments.get((int)(Math.random() * validDepartments.size()));
+
+    Ca2algorithms emp = new Ca2algorithms(n, randomManager, randomDepartment);
+    employees.add(emp);
+       }
 
         BinaryTree tree = new BinaryTree();
 
@@ -94,6 +98,17 @@ public class Main {
 
                     System.out.println("Enter department:");
                     String dep = sc.nextLine();
+                    
+                    if (!validManagers.contains(mt)) {
+                    System.out.println("Invalid manager type. Please enter a valid one.");
+                    break;
+                    }
+
+                    if (!validDepartments.contains(dep)) {
+                    System.out.println("Invalid department. Please enter a valid one.");
+                    break;
+                       }
+
 
                     Ca2algorithms newEmp = new Ca2algorithms(name, mt, dep);
                     employees.add(newEmp);

@@ -8,6 +8,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>com.mycompany.ca2algorithms.Ca2algorithms</exec.mainClass>
+        <exec.mainClass>com.mycompany.ca2algorithms.Main</exec.mainClass>
     </properties>
 </project>
