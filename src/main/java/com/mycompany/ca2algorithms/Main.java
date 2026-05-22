@@ -54,28 +54,39 @@ public class Main {
 
         while (running) {
             System.out.println("\nPlease select an option:");
-            System.out.println("1. SORT");
-            System.out.println("2. SEARCH");
-            System.out.println("3. ADD RECORD");
-            System.out.println("4. CREATE TREE");
-            System.out.println("5. EXIT");
+            System.out.println("1. Sort");
+            System.out.println("2. Search");
+            System.out.println("3. Add Record");
+            System.out.println("4. Create Tree");
+            System.out.println("5. Exit");
 
-            int choice = sc.nextInt();
-            sc.nextLine();
+            String input = sc.nextLine();
 
+            if (!input.matches("[0-9]+")) {
+            System.out.println("Please enter a number only.");
+            continue;
+            }
+
+            int choice = Integer.parseInt(input);
+
+            if (choice < 1 || choice > MenuOption.values().length) {
+            System.out.println("Invalid option. Please try again.");
+            continue;
+            }
+            
             MenuOption option = MenuOption.values()[choice - 1];
 
             switch (option) {
 
-                case SORT:
+                case SORT ->{
                     Sorting.mergeSort(names);
                     System.out.println("\nFirst 20 sorted names:");
                     for (int i = 0; i < 20 && i < names.size(); i++) {
                         System.out.println(names.get(i));
                     }
-                    break;
+                }
 
-                case SEARCH:
+                case SEARCH -> {
                     System.out.println("Enter name to search:");
                     String target = sc.nextLine();
 
@@ -87,37 +98,80 @@ public class Main {
                     } else {
                         System.out.println("Found: " + names.get(index));
                     }
-                    break;
+                }
 
-                case ADD_RECORD:
+                case ADD_RECORD ->{
                     System.out.println("Enter name:");
                     String name = sc.nextLine();
-
-                    System.out.println("Enter manager type:");
-                    String mt = sc.nextLine();
-
-                    System.out.println("Enter department:");
-                    String dep = sc.nextLine();
                     
-                    if (!validManagers.contains(mt)) {
-                    System.out.println("Invalid manager type. Please enter a valid one.");
+                    if (!name.matches("[a-zA-Z ]+")) {
+                    System.out.println("Invalid name. Only letters and spaces are allowed.");
                     break;
-                    }
+                        }
 
-                    if (!validDepartments.contains(dep)) {
-                    System.out.println("Invalid department. Please enter a valid one.");
+                    if (name.trim().isEmpty()) {
+                    System.out.println("Name cannot be empty.");
                     break;
-                       }
+                        }
+                
+                String mt = "";
+                while (true) {
+                    System.out.println("Select Manager Type:");
+                    for (int i = 0; i < validManagers.size(); i++) {
+                    System.out.println((i + 1) + ". " + validManagers.get(i));
+                        }
 
+                    String mtInput = sc.nextLine();
 
+                    if (!mtInput.matches("[0-9]+")) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    continue;
+                        }
+
+                    int mtIndex = Integer.parseInt(mtInput) - 1;
+
+                    if (mtIndex < 0 || mtIndex >= validManagers.size()) {
+                    System.out.println("Invalid option. Please select a valid manager type.");
+                    continue;
+                        }
+                    
+                    mt = validManagers.get(mtIndex);
+                    break;
+                }
+
+                String dep = "";
+                while (true) {
+                    System.out.println("Select department:");
+                    for (int i = 0; i < validDepartments.size(); i++) {
+                    System.out.println((i + 1) + ". " + validDepartments.get(i));
+                        }
+
+                    String depInput = sc.nextLine();
+
+                    if (!depInput.matches("[0-9]+")) {
+                    System.out.println("Invalid input. Please enter a number.");
+                    continue;
+                        }
+
+                    int depIndex = Integer.parseInt(depInput) - 1;
+
+                    if (depIndex < 0 || depIndex >= validDepartments.size()) {
+                    System.out.println("Invalid option. Please select a valid department.");
+                    continue;
+                        }
+                    
+                    dep = validDepartments.get(depIndex);
+                        break;
+                }
+                    
                     Ca2algorithms newEmp = new Ca2algorithms(name, mt, dep);
                     employees.add(newEmp);
                     names.add(newEmp.getName());
 
                     System.out.println("Record added successfully!");
-                    break;
+                }
 
-                case CREATE_TREE:
+                case CREATE_TREE ->{
                     System.out.println("Building binary tree with 20 employees...");
                     for (Ca2algorithms e : employees) tree.insert(e);
 
@@ -126,11 +180,11 @@ public class Main {
 
                     System.out.println("\nTree Height: " + tree.getHeight());
                     System.out.println("Total Nodes: " + tree.getNodeCount());
-                    break;
+                }
 
-                case EXIT:
+                case EXIT ->{
                     running = false;
-                    break;
+                }
             }
         }
         sc.close();
