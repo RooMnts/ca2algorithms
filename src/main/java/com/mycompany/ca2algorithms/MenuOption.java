@@ -8,12 +8,12 @@ package com.mycompany.ca2algorithms;
  *
  * @author RooMnts
  */
-public enum MenuOption {
+public enum MenuOption { // Enum that defines the available menu options in the program
     
-    SORT,
-    SEARCH,
-    ADD_RECORD,
-    CREATE_TREE,
-    EXIT
+    SORT, // Sorts the list of names
+    SEARCH, // Searches for a specific name using binary search
+    ADD_RECORD, // Adds a new employee record to the system
+    CREATE_TREE, // Builds and displays the binary tree
+    EXIT // Exits the program
     
 }

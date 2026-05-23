@@ -18,28 +18,32 @@ public class Main {
     
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in); // Scanner used to read user input from the console
         
-        List<String> names = new ArrayList<>();
-    List<Ca2algorithms> employees = new ArrayList<>();
+    List<String> names = new ArrayList<>();  // List that stores only the names read from the file
+    List<Ca2algorithms> employees = new ArrayList<>(); // List that stores full employee objects (name, manager type, department)
 
+    // Reads the text file and loads each name into the list
     try (Scanner fileScanner = new Scanner(new File("src/main/resources/Applicants_Form.txt"))) {
         while (fileScanner.hasNextLine()) {
             String line = fileScanner.nextLine().trim();
-            if (!line.isEmpty()) {
+            if (!line.isEmpty()) { // Avoids adding empty lines from the file
                 names.add(line);
             }
         }
         System.out.println("File read successfully!");
     } catch (FileNotFoundException e) {
-        System.out.println("Applicants_Form.txt not found!");
+        System.out.println("Applicants_Form.txt not found!"); // Stops the program if the file is missing
         return;
     }
     
+    // Predefined list of valid manager types
     List<String> validManagers = List.of("Senior Manager", "Assistant Manager", "Manager", "Intern", "Junior", "Contract");
+    // Predefined list of valid departments
     List<String> validDepartments = List.of("IT Development", "HR", "Finance", "Marketing", "Accounting", "Operations", "Technical Support", "Customer Service", "Sales");
 
-    
+    /** Creates employee objects using the names from the file
+    Each employee gets a random manager type and department **/
     for (String n : names) {
     String randomManager = validManagers.get((int)(Math.random() * validManagers.size()));
     String randomDepartment = validDepartments.get((int)(Math.random() * validDepartments.size()));
@@ -48,11 +52,11 @@ public class Main {
     employees.add(emp);
        }
 
-        BinaryTree tree = new BinaryTree();
+        BinaryTree tree = new BinaryTree(); // Binary tree used later for the "Create Tree" option
 
-        boolean running = true;
+        boolean running = true; // Controls the main menu loop
 
-        while (running) {
+        while (running) {  // Main program menu
             System.out.println("\nPlease select an option:");
             System.out.println("1. Sort");
             System.out.println("2. Search");
@@ -62,14 +66,15 @@ public class Main {
 
             String input = sc.nextLine();
 
-            if (!input.matches("[0-9]+")) {
+            if (!input.matches("[0-9]+")) {  // Validates that the menu input is numeric
             System.out.println("Please enter a number only.");
             continue;
             }
 
             int choice = Integer.parseInt(input);
 
-            if (choice < 1 || choice > MenuOption.values().length) {
+            // Ensures the selected option exists in the menu
+            if (choice < 1 || choice > MenuOption.values().length) { 
             System.out.println("Invalid option. Please try again.");
             continue;
             }
@@ -78,7 +83,7 @@ public class Main {
 
             switch (option) {
 
-                case SORT ->{
+                case SORT ->{ // Sorts the list of names using merge sort
                     Sorting.mergeSort(names);
                     System.out.println("\nFirst 20 sorted names:");
                     for (int i = 0; i < 20 && i < names.size(); i++) {
@@ -90,7 +95,7 @@ public class Main {
                     System.out.println("Enter name to search:");
                     String target = sc.nextLine();
 
-                    Sorting.mergeSort(names);
+                    Sorting.mergeSort(names); // Sorts the list before performing binary search
                     int index = Searching.binarySearch(names, target, 0, names.size() - 1);
 
                     if (index == -1) {
@@ -104,7 +109,7 @@ public class Main {
                     System.out.println("Enter name:");
                     String name = sc.nextLine();
                     
-                    if (!name.matches("[a-zA-Z ]+")) {
+                    if (!name.matches("[a-zA-Z ]+")) { // Validates that the name contains only letters and spaces
                     System.out.println("Invalid name. Only letters and spaces are allowed.");
                     break;
                         }
@@ -114,7 +119,7 @@ public class Main {
                     break;
                         }
                 
-                String mt = "";
+                String mt = ""; // Manager type selection menu
                 while (true) {
                     System.out.println("Select Manager Type:");
                     for (int i = 0; i < validManagers.size(); i++) {
@@ -139,7 +144,7 @@ public class Main {
                     break;
                 }
 
-                String dep = "";
+                String dep = "";  // Department selection menu
                 while (true) {
                     System.out.println("Select department:");
                     for (int i = 0; i < validDepartments.size(); i++) {
@@ -164,14 +169,14 @@ public class Main {
                         break;
                 }
                     
-                    Ca2algorithms newEmp = new Ca2algorithms(name, mt, dep);
+                    Ca2algorithms newEmp = new Ca2algorithms(name, mt, dep); // Creates and stores the new employee record
                     employees.add(newEmp);
                     names.add(newEmp.getName());
 
                     System.out.println("Record added successfully!");
                 }
 
-                case CREATE_TREE ->{
+                case CREATE_TREE ->{ // Inserts all employees into the binary tree
                     System.out.println("Building binary tree with 20 employees...");
                     for (Ca2algorithms e : employees) tree.insert(e);
 
@@ -182,11 +187,11 @@ public class Main {
                     System.out.println("Total Nodes: " + tree.getNodeCount());
                 }
 
-                case EXIT ->{
+                case EXIT ->{ // Ends the main loop and closes the program
                     running = false;
                 }
             }
         }
-        sc.close();
+        sc.close(); // Closes the scanner at the end of the program
     }    
 }

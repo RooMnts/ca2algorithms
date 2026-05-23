@@ -8,13 +8,13 @@ package com.mycompany.ca2algorithms;
  *
  * @author RooMnts
  */
-public class Node {
+public class Node { // Represents a single node inside the binary tree
     
-    Ca2algorithms data;
-    Node left;
-    Node right;
+    Ca2algorithms data; // Stores the employee information inside this node
+    Node left; // Reference to the left child node
+    Node right; // Reference to the right child node
 
-    public Node(Ca2algorithms data) {
+    public Node(Ca2algorithms data) { // Creates a new node containing an employee object
         this.data = data;
     }    
 }
